@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 #define BUFFER_SZ 50
 
 //prototypes
@@ -14,8 +13,8 @@ int  setup_buff(char *, char *, int);
 int  count_words(char *, int, int);
 //add additional prototypes here
 
-
-int setup_buff(char *buff, char *user_str, int len){
+int setup_buff(char *buff, char *user_str, int len)
+{
     //TODO: #4:  Implement the setup buff as per the directions
     
     int str_len = 0;    // Variable to hold the length of user_str.
@@ -83,9 +82,9 @@ void print_buff(char *buff, int len)
 void usage(char *exename)
 {
     printf("usage: %s [-h|c|r|w|x] \"string\" [other args]\n", exename);
-
 }
 
+// Function to count the total number of words in the buff.
 int count_words(char *buff, int len, int str_len)
 {
     //YOU MUST IMPLEMENT
@@ -118,7 +117,7 @@ void swap(char* a, char* b)
     *b = temp;
 }
 
-// Function to reverse the characters in buff (in place). Uses the helper function swap.
+// Function to reverse the characters in buff (in place). Uses the helper function swap. Two pointer approach.
 void reverseString(char* buff, int str_len)
 {
     int i = 0;
@@ -131,6 +130,35 @@ void reverseString(char* buff, int str_len)
         j--;
     }
     
+}
+
+// Function to print words in order.
+void  wordPrint(char* buff, int str_len)
+{
+    int words_count = count_words(buff, BUFFER_SZ, str_len);
+    int char_count = 0;
+    int index = 0;
+
+    printf("Word Print\n");
+    printf("----------\n");
+
+    // Here, we will keep printing the character until we hit a space character. 
+    // After that, we move on to next for loop iteration, meaning next word.
+    // Once index == str_len, that means we have processed all the characters.
+    for (int i = 0; i < words_count; i++)
+    {
+        printf("%d. ", i+1);
+        while (buff[index] != ' ' && index != str_len)
+        {
+            printf("%c", buff[index]);
+            index++;
+            char_count++;
+        }
+        printf(" (%d)\n", char_count);
+        char_count = 0;
+        index++;     
+    }
+    printf("\n");
 }
 
 int main(int argc, char *argv[])
@@ -186,7 +214,7 @@ int main(int argc, char *argv[])
     switch (opt)
     {
         case 'c':
-            rc = count_words(buff, BUFFER_SZ, user_str_len);  //you need to implement
+            rc = count_words(buff, BUFFER_SZ, user_str_len);
             if (rc < 0)
             {
                 printf("Error counting words, rc = %d", rc);
@@ -200,6 +228,10 @@ int main(int argc, char *argv[])
         case 'r':
             reverseString(buff, user_str_len);
             print_buff(buff, user_str_len);
+            break;
+        
+        case 'w':
+            wordPrint(buff, user_str_len);
             break;
 
         default:
