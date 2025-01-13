@@ -79,3 +79,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+assignments/1-C-Refresher/starter/stringfun
+assignments/1-C-Refresher/starter/test
+assignments/1-C-Refresher/starter/test.c
