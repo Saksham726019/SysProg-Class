@@ -88,6 +88,11 @@ void usage(char *exename)
 int count_words(char *buff, int len, int str_len)
 {
     //YOU MUST IMPLEMENT
+    if (str_len > len)
+    {
+        return -1;
+    }
+    
     int word_count = 0;
 
     for (int i = 0; i < str_len; i++)
@@ -123,7 +128,7 @@ void reverseString(char* buff, int str_len)
     int i = 0;
     int j = str_len - 1;
 
-    while (i != j)
+    while (i < j)
     {
         swap(&buff[i], &buff[j]);
         i++;
@@ -171,6 +176,9 @@ int main(int argc, char *argv[])
 
     //TODO:  #1. WHY IS THIS SAFE, aka what if arv[1] does not exist?
     //      PLACE A COMMENT BLOCK HERE EXPLAINING
+    // This checks the number of arguments passed. The first (argc < 2) makes sure enough arguments are passed.
+    // And, the (*argv[1] != '-') checks if the second argument starts with '-'. 
+    // These both checks avoids accessing argv[1] if it doesn't exist.
     if ((argc < 2) || (*argv[1] != '-'))
     {
         usage(argv[0]);
@@ -190,6 +198,11 @@ int main(int argc, char *argv[])
 
     //TODO:  #2 Document the purpose of the if statement below
     //      PLACE A COMMENT BLOCK HERE EXPLAINING
+    // This if statement checks if at least 3 arguments were passed.
+    // argv[0] is the executable file.
+    // argv[1] is the flag.
+    // argv[2] is the user string.
+    // If the program doesn't recieve these three arguments, it will not run and prevents unexpected behavior.
     if (argc < 3)
     {
         usage(argv[0]);
@@ -203,6 +216,11 @@ int main(int argc, char *argv[])
     //          return code of 99
     // CODE GOES HERE FOR #3
     buff = malloc(BUFFER_SZ);
+    if(buff == NULL)
+    {
+        printf("Memory allocation failure\n");
+        exit(99);
+    }
 
     user_str_len = setup_buff(buff, input_string, BUFFER_SZ);     //see todos
     if (user_str_len < 0)
@@ -227,7 +245,7 @@ int main(int argc, char *argv[])
         //       the case statement options
         case 'r':
             reverseString(buff, user_str_len);
-            print_buff(buff, user_str_len);
+            //print_buff(buff, user_str_len);
             break;
         
         case 'w':
@@ -252,3 +270,7 @@ int main(int argc, char *argv[])
 //          the buff variable will have exactly 50 bytes?
 //  
 //          PLACE YOUR ANSWER HERE
+// 1. Makes the code flexible because in case the buffer size is changed, it makes the function reusable for different buffer sizes.
+// 2. Passing the pointer to buffer allows to manipulate the data easily.
+// 3. By passing the length alongside the buffer, the function can iterate through the buffer as per the size of length.
+// If length was not passed, we would have to look for the value of buffer length everytime we need to iterate. In case buffer size changes, the entire code needs to be fixed.
