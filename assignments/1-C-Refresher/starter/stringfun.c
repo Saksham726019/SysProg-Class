@@ -95,6 +95,8 @@ int count_words(char *buff, int len, int str_len)
     
     int word_count = 0;
 
+    // When we hit a space character or tab character, it means we finished processing a word.
+    // When the index == str_len, that means we processed the last word.
     for (int i = 0; i < str_len; i++)
     {
         if (i == str_len - 1)
@@ -245,7 +247,6 @@ int main(int argc, char *argv[])
         //       the case statement options
         case 'r':
             reverseString(buff, user_str_len);
-            //print_buff(buff, user_str_len);
             break;
         
         case 'w':
